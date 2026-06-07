@@ -1,0 +1,151 @@
+@startuml
+!theme plain
+skinparam backgroundColor #F7F9FB
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+title "LUMINA ELITE — Application Component Diagram"
+
+' ──────────────────────────────────────────────
+' LAYERS
+' ──────────────────────────────────────────────
+
+package "Presentation Layer" as presentation {
+    [Twig Templates] as templates
+    [Asset Mapper\n(CSS / JS / Images)] as assets
+}
+
+package "Web Layer" as web {
+    [Symfony\nFront Controller] as front
+    [Security\nFirewall] as security
+}
+
+package "Controller Layer" as controllers {
+    [Homepage\nController] as homeCtrl
+    [Category\nController] as catCtrl
+    [Product\nController] as prodCtrl
+    [Cart\nController] as cartCtrl
+    [Order\nController] as orderCtrl
+    [Auth\nController] as authCtrl
+    [Admin\nController] as adminCtrl
+    [AI Finder\nController] as finderCtrl
+}
+
+package "Service Layer" as services {
+    [Product\nService] as prodSvc
+    [Order\nService] as orderSvc
+    [Cart\nService] as cartSvc
+    [Recommendation\nEngine] as recSvc
+    [Payment\nService] as paySvc
+    [Newsletter\nService] as newsSvc
+}
+
+package "Persistence Layer" as persistence {
+    database "MySQL / MariaDB" as db
+    [Product\nRepository] as prodRepo
+    [Category\nRepository] as catRepo
+    [Order\nRepository] as orderRepo
+    [User\nRepository] as userRepo
+}
+
+package "Domain Layer" as domain {
+    [Product\nEntity] as prodEntity
+    [Category\nEntity] as catEntity
+    [Order\nEntity] as orderEntity
+    [User\nEntity] as userEntity
+    [FlashDeal\nEntity] as dealEntity
+    [Review\nEntity] as revEntity
+}
+
+package "External Systems" as external {
+    [Stripe\nPayment Gateway] as stripe
+    [SMTP\nMailer] as mailer
+    [Google\nRecaptcha] as recaptcha
+}
+
+' ──────────────────────────────────────────────
+' RELATIONSHIPS
+' ──────────────────────────────────────────────
+
+' Presentation → Web
+templates --> front : renders via
+assets --> front : served via
+
+' Web → Controllers
+front --> homeCtrl : routes / to
+front --> catCtrl : routes /{category} to
+front --> prodCtrl : routes /product to
+front --> cartCtrl : routes /cart to
+front --> orderCtrl : routes /order to
+front --> authCtrl : routes /login to
+front --> adminCtrl : routes /admin to
+front --> finderCtrl : routes /finder to
+
+' Controllers → Services
+homeCtrl --> prodSvc : featured products
+homeCtrl --> dealEntity : flash deals
+catCtrl --> prodSvc : filter by category
+prodCtrl --> prodSvc : product detail
+cartCtrl --> cartSvc : manage cart
+orderCtrl --> orderSvc : place order
+orderCtrl --> paySvc : process payment
+finderCtrl --> recSvc : get recommendations
+authCtrl --> userRepo : authenticate
+
+' Services → Persistence
+prodSvc --> prodRepo
+cartSvc --> prodRepo
+orderSvc --> orderRepo
+orderSvc --> prodRepo
+newsSvc --> userRepo
+recSvc --> prodRepo
+
+' Repositories → Domain
+prodRepo --> prodEntity
+catRepo --> catEntity
+orderRepo --> orderEntity
+userRepo --> userEntity
+
+' Repositories → Database
+prodRepo --> db
+catRepo --> db
+orderRepo --> db
+userRepo --> db
+
+' Services → External
+paySvc --> stripe : HTTP API
+orderSvc --> mailer : SMTP
+authCtrl --> recaptcha : API
+
+' ──────────────────────────────────────────────
+' NOTES
+' ──────────────────────────────────────────────
+
+note top of homeCtrl
+  Renders homepage with:
+  • Hero section
+  • Brand carousel
+  • Bento categories grid
+  • AI Product Finder
+  • Flash Deals (countdown)
+  • Newsletter CTA
+end note
+
+note top of recSvc
+  Weighted scoring algorithm:
+  budget(30%) + useCase(25%)
+  + performance(20%)
+  + portability(15%) + display(10%)
+end note
+
+' ──────────────────────────────────────────────
+' LEGEND
+' ──────────────────────────────────────────────
+
+rectangle "#E8F5E9" as legend [
+  === Legend ===
+  <#E8F5E9> Existing
+  <#FFF3E0> Proposed
+]
+
+@enduml

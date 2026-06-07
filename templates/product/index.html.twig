@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Products | LUMINA ELITE{% endblock %}
+
+{% block body %}
+<section class="py-32 px-margin-desktop max-w-container-max mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface">All Products</h1>
+            <p class="text-on-surface-variant font-body-lg text-body-lg mt-2">{{ products|length }} models available</p>
+        </div>
+        <div class="flex gap-4 items-center">
+            <form method="get" class="flex gap-4 items-center">
+                <select name="category" onchange="this.form.submit()" class="px-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-body-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}" {% if currentCategory == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <select name="sort" onchange="this.form.submit()" class="px-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-body-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <option value="newest" {% if currentSort == 'newest' %}selected{% endif %}>Newest</option>
+                    <option value="price_asc" {% if currentSort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                    <option value="price_desc" {% if currentSort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                    <option value="name" {% if currentSort == 'name' %}selected{% endif %}>Name</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for product in products %}
+            <twig:ProductCard :product="product" />
+        {% else %}
+            <div class="col-span-full text-center py-20">
+                <span class="material-symbols-outlined text-5xl text-outline-variant block mb-4" data-icon="search_off">search_off</span>
+                <p class="text-on-surface-variant font-headline-lg text-headline-lg">No products found</p>
+                <p class="text-on-surface-variant font-body-md mt-2">Try adjusting your filters.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

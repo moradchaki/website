@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart | LUMINA ELITE{% endblock %}
+
+{% block body %}
+<section class="py-16 px-margin-desktop max-w-container-max mx-auto">
+    <div class="mb-12 flex items-center justify-between">
+        <div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">Shopping Cart</h1>
+            <p class="text-on-surface-variant font-body-lg text-body-lg">
+                {% if cart %}{{ cart.itemCount }} item{% if cart.itemCount != 1 %}s{% endif %} in your cart{% else %}Your cart is empty{% endif %}
+            </p>
+        </div>
+        <a href="{{ path('homepage') }}" class="material-symbols-outlined text-primary hover:scale-110 transition-transform" data-icon="arrow_back">arrow_back</a>
+    </div>
+
+    {% if cart is null or cart.items is empty %}
+        <div class="text-center py-32 glass rounded-3xl">
+            <span class="material-symbols-outlined text-[80px] text-outline-variant" data-icon="shopping_cart">shopping_cart</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mt-6 mb-3">Your Cart is Empty</h2>
+            <p class="text-on-surface-variant font-body-md text-body-md max-w-md mx-auto mb-8">Looks like you haven't added anything yet. Browse our collection to find your perfect machine.</p>
+            <a href="{{ path('product_index') }}" class="bg-primary text-on-primary p-4 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg inline-flex items-center gap-2">
+                <span class="material-symbols-outlined" data-icon="laptop">laptop</span>
+                Browse
+            </a>
+        </div>
+    {% else %}
+        {% set items = cart.items %}
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="flex-1 space-y-4">
+                {% for item in items %}
+                    {% set product = item.product %}
+                    <div class="glass rounded-2xl p-6 flex flex-col sm:flex-row gap-6 items-start">
+                        <div class="w-full sm:w-28 h-28 bg-surface-container-low rounded-xl p-3 flex items-center justify-center shrink-0">
+                            <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-headline-lg text-[18px] leading-tight text-on-surface mb-1">{{ product.name }}</h3>
+                            <p class="text-on-surface-variant font-body-md text-body-md text-sm truncate mb-3">{{ product.shortDescription }}</p>
+                            <div class="flex items-center gap-4 flex-wrap">
+                                <div class="flex items-center border border-outline-variant/30 rounded-xl overflow-hidden">
+                                    <form action="{{ path('cart_update', { id: item.id }) }}" method="POST" class="flex items-center">
+                                        <button type="submit" name="quantity" value="{{ item.quantity - 1 }}" class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+                                            {% if item.quantity <= 1 %}disabled style="opacity:0.3;cursor:not-allowed"{% endif %}>
+                                            <span class="material-symbols-outlined text-[18px]" data-icon="remove">remove</span>
+                                        </button>
+                                        <span class="w-12 text-center font-button-text text-button-text text-on-surface">{{ item.quantity }}</span>
+                                        <button type="submit" name="quantity" value="{{ item.quantity + 1 }}" class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-all">
+                                            <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                                        </button>
+                                    </form>
+                                </div>
+                                <span class="text-primary font-headline-lg text-[20px]">${{ item.totalPrice|number_format(0) }}</span>
+                            </div>
+                        </div>
+                        <form action="{{ path('cart_remove', { id: item.id }) }}" method="POST">
+                            <button type="submit" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-error-container transition-colors">
+                                <span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="delete">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="w-full lg:w-80 shrink-0">
+                <div class="glass rounded-2xl p-6 space-y-6 sticky top-36">
+                    <h3 class="font-headline-lg text-[20px] text-on-surface">Order Summary</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                            <span>Subtotal ({{ cart.itemCount }} item{% if cart.itemCount != 1 %}s{% endif %})</span>
+                            <span class="text-on-surface font-medium">${{ cart.total|number_format(0) }}</span>
+                        </div>
+                        <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                            <span>Shipping</span>
+                            <span class="text-on-surface font-medium">Calculated at checkout</span>
+                        </div>
+                        <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                            <span>Tax</span>
+                            <span class="text-on-surface font-medium">Calculated at checkout</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-outline-variant/20 pt-4">
+                        <div class="flex justify-between font-headline-lg text-[20px] text-on-surface">
+                            <span>Total</span>
+                            <span class="text-primary">${{ cart.total|number_format(0) }}</span>
+                        </div>
+                    </div>
+                    <form action="{{ path('order_checkout') }}" method="POST">
+                        <button class="w-full bg-primary text-on-primary py-4 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+                            Checkout
+                        </button>
+                    </form>
+                    <a href="{{ path('product_index') }}" class="flex items-center justify-center gap-2 text-primary font-button-text text-button-text hover:underline mt-3">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_back">arrow_back</span>
+                        Shop
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

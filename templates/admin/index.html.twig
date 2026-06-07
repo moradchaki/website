@@ -1,0 +1,97 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Dashboard | Admin | LUMINA ELITE{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <twig:StatCard icon="inventory_2" color="primary" value="{{ stats.total_products }}" label="Total Products" />
+    <twig:StatCard icon="category" color="secondary" value="{{ stats.total_categories }}" label="Categories" />
+    <twig:StatCard icon="receipt_long" color="tertiary" value="{{ stats.total_orders }}" label="Orders" />
+    <twig:StatCard icon="payments" color="primary" value="${{ stats.total_revenue|number_format(0) }}" label="Total Revenue" />
+    <twig:StatCard icon="local_fire_department" color="amber-600" value="{{ stats.active_deals }}" label="Active Flash Deals" />
+    <twig:StatCard icon="warning" color="red-500" value="{{ stats.low_stock }}" label="Low Stock Items" />
+</div>
+
+<div class="p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="font-headline-lg text-[22px] text-on-surface">Category Breakdown</h2>
+        <span class="material-symbols-outlined text-primary" data-icon="category">category</span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="border-b border-outline-variant/20">
+                    <th class="pb-3 font-button-text text-[13px] text-on-surface-variant uppercase tracking-wider">Category</th>
+                    <th class="pb-3 font-button-text text-[13px] text-on-surface-variant uppercase tracking-wider text-right">Products</th>
+                    <th class="pb-3 font-button-text text-[13px] text-on-surface-variant uppercase tracking-wider text-right">Total Stock</th>
+                    <th class="pb-3 font-button-text text-[13px] text-on-surface-variant uppercase tracking-wider text-right">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in category_stats %}
+                <tr class="border-b border-outline-variant/10 last:border-0">
+                    <td class="py-3.5 font-medium text-on-surface">{{ stat.category_name }}</td>
+                    <td class="py-3.5 text-right text-on-surface">{{ stat.product_count }}</td>
+                    <td class="py-3.5 text-right text-on-surface">{{ stat.total_stock }}</td>
+                    <td class="py-3.5 text-right text-primary font-medium">${{ stat.total_price|number_format(0) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="py-8 text-center text-on-surface-variant">No categories found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-headline-lg text-[22px] text-on-surface">Recent Products</h2>
+            <a href="{{ path('admin_product_index') }}" class="material-symbols-outlined text-primary hover:scale-110 transition-transform" data-icon="arrow_forward">arrow_forward</a>
+        </div>
+        <div class="space-y-4">
+            {% for product in recent_products %}
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20">
+                    <div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                        {% if product.imageUrl %}
+                            <img src="{{ product.imageUrl }}" alt="" class="w-full h-full object-cover" />
+                        {% else %}
+                            <span class="material-symbols-outlined text-primary" data-icon="laptop">laptop</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-button-text text-button-text text-on-surface truncate">{{ product.name }}</p>
+                        <p class="text-on-surface-variant text-[13px]">${{ product.price|number_format(2) }} &middot; Stock: {{ product.stock }}</p>
+                    </div>
+                    <a href="{{ path('admin_product_edit', { id: product.id }) }}" class="material-symbols-outlined text-primary hover:scale-110 transition-transform text-[20px]" data-icon="edit">edit</a>
+                </div>
+            {% else %}
+                <p class="text-on-surface-variant font-body-md text-center py-8">No products yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-headline-lg text-[22px] text-on-surface">Recent Orders</h2>
+        </div>
+        <div class="space-y-4">
+            {% for order in recent_orders %}
+                <a href="{{ path('admin_order_show', { id: order.id }) }}" class="block p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="font-button-text text-button-text text-on-surface">{{ order.orderNumber }}</p>
+                        <span class="text-[11px] px-2 py-0.5 rounded-full {% if order.status.value == 'pending' %}bg-amber-100 text-amber-800{% elseif order.status.value == 'completed' %}bg-green-100 text-green-800{% else %}bg-surface-container-high text-on-surface-variant{% endif %} font-medium">{{ order.status.value|capitalize }}</span>
+                    </div>
+                    <p class="text-on-surface-variant text-[13px]">{{ order.user.fullName }} &middot; ${{ order.totalAmount|number_format(2) }} &middot; {{ order.createdAt|date('M d, H:i') }}</p>
+                </a>
+            {% else %}
+                <p class="text-on-surface-variant font-body-md text-center py-8">No orders yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

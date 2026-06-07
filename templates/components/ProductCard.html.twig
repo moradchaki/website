@@ -1,0 +1,56 @@
+<div class="group bg-surface-container-lowest rounded-3xl border border-outline-variant/30 overflow-hidden hover:shadow-premium transition-all">
+    <div class="relative aspect-square overflow-hidden bg-surface-container-low">
+        <a href="{{ path('product_show', { slug: product.slug }) }}">
+            <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </a>
+        <div class="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="{{ path('product_show', { slug: product.slug }) }}"
+                class="w-9 h-9 flex items-center justify-center rounded-full bg-surface/90 backdrop-blur-sm hover:bg-primary/20 transition-all cursor-pointer shadow-lg">
+                <span class="material-symbols-outlined text-[20px] text-on-surface-variant">visibility</span>
+            </a>
+            {% if app.user %}
+                <button data-like data-product="{{ product.id }}"
+                    class="w-9 h-9 flex items-center justify-center rounded-full bg-surface/90 backdrop-blur-sm hover:bg-error/20 transition-all cursor-pointer shadow-lg"
+                    data-liked="{{ isLiked ? 'true' : 'false' }}">
+                    <span class="material-symbols-outlined text-[20px] transition-all {{ isLiked ? 'text-error fill-current' : 'text-on-surface-variant' }}"
+                        data-icon="{{ isLiked ? 'favorite' : 'favorite_border' }}">
+                        {{ isLiked ? 'favorite' : 'favorite_border' }}
+                    </span>
+                </button>
+            {% endif %}
+            <a href="{{ path('cart_index') }}"
+                class="relative w-9 h-9 flex items-center justify-center rounded-full bg-surface/90 backdrop-blur-sm hover:bg-primary/20 transition-all cursor-pointer shadow-lg">
+                <span class="material-symbols-outlined text-[20px] text-on-surface-variant">shopping_cart</span>
+                {% if cartItemCount > 0 %}
+                    <span class="absolute -top-1 -right-1 w-4.5 h-4.5 flex items-center justify-center bg-error text-on-error text-[10px] font-bold rounded-full min-w-[18px] min-h-[18px]">{{ cartItemCount }}</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+    <div class="p-6 space-y-3">
+        <div class="flex items-center justify-between">
+            <a href="{{ path('product_show', { slug: product.slug }) }}" class="block flex-1">
+                <h3 class="font-headline-lg text-[20px] text-on-surface hover:text-primary transition-colors">{{ product.name }}</h3>
+            </a>
+        </div>
+        <p class="text-on-surface-variant font-body-md text-body-md line-clamp-2">{{ product.shortDescription ?: product.description }}</p>
+        <div class="flex items-center justify-between pt-2">
+            <div class="flex items-center gap-3">
+                <span class="text-primary font-headline-lg text-[24px] font-bold">${{ product.price|number_format(0) }}</span>
+                {% if product.likesCount > 0 %}
+                    <span class="text-on-surface-variant font-body-sm text-body-sm flex items-center gap-1" data-likes-count="{{ product.id }}">
+                        <span class="material-symbols-outlined text-[16px]">favorite</span>
+                        {{ product.likesCount }}
+                    </span>
+                {% endif %}
+            </div>
+            {% if app.user %}
+                <form action="{{ path('cart_add', { id: product.id }) }}" method="POST">
+                    <button class="bg-primary text-on-primary px-4 py-2 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg text-sm cursor-pointer">Add to Cart</button>
+                </form>
+            {% else %}
+                <a href="{{ path('auth_login') }}" class="bg-primary/20 text-primary px-4 py-2 rounded-xl font-button-text text-button-text hover:bg-primary/30 transition-all text-sm">Sign In to Buy</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

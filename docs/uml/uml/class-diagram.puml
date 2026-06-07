@@ -1,0 +1,212 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #F7F9FB
+skinparam shadowing false
+
+title "LUMINA ELITE — Domain Model (Class Diagram)"
+
+' ──────────────────────────────────────────────
+' ENUMERATIONS
+' ──────────────────────────────────────────────
+
+enum OrderStatus {
+    PENDING
+    CONFIRMED
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+    REFUNDED
+}
+
+enum UserRole {
+    ROLE_USER
+    ROLE_ADMIN
+}
+
+' ──────────────────────────────────────────────
+' ENTITIES
+' ──────────────────────────────────────────────
+
+class Category {
+    + id: int
+    + name: string
+    + slug: string
+    + description: text
+    + imageUrl: string
+    + displayOrder: int
+    + isActive: boolean
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + getProducts(): Collection
+}
+
+class Product {
+    + id: int
+    + name: string
+    + slug: string
+    + description: text
+    + shortDescription: string
+    + price: float
+    + salePrice: float
+    + specs: json
+    + imageUrl: string
+    + galleryImages: json
+    + stock: int
+    + sku: string
+    + isFeatured: boolean
+    + isNewArrival: boolean
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + getCategories(): Collection
+    + getReviews(): Collection
+    + getFlashDeal(): ?FlashDeal
+    + getEffectivePrice(): float
+}
+
+class FlashDeal {
+    + id: int
+    + discountPercent: float
+    + startAt: datetime
+    + endAt: datetime
+    + isActive: boolean
+    + quantitySold: int
+    + maxQuantity: int
+    + createdAt: datetime
+    --
+    + isExpired(): boolean
+    + getRemainingStock(): int
+}
+
+class User {
+    + id: int
+    + email: string
+    + password: string
+    + firstName: string
+    + lastName: string
+    + role: UserRole
+    + isVerified: boolean
+    + isStudentVerified: boolean
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + getFullName(): string
+    + getOrders(): Collection
+}
+
+class Order {
+    + id: int
+    + orderNumber: string
+    + totalAmount: float
+    + subtotal: float
+    + taxAmount: float
+    + shippingAmount: float
+    + status: OrderStatus
+    + shippingAddress: json
+    + paymentMethod: string
+    + notes: text
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + getItems(): Collection
+    + getItemCount(): int
+}
+
+class OrderItem {
+    + id: int
+    + quantity: int
+    + unitPrice: float
+    + totalPrice: float
+    --
+    + getProduct(): ?Product
+}
+
+class Review {
+    + id: int
+    + rating: int
+    + title: string
+    + comment: text
+    + isApproved: boolean
+    + createdAt: datetime
+    --
+    + getUser(): ?User
+    + getProduct(): ?Product
+}
+
+class NewsletterSubscription {
+    + id: int
+    + email: string
+    + isVerified: boolean
+    + subscribedAt: datetime
+    + unsubscribedAt: datetime
+    --
+    + isActive(): boolean
+}
+
+class ProductComparison {
+    + id: int
+    + sessionId: string
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + addProduct(product: Product): void
+    + removeProduct(product: Product): void
+    + getProducts(): Collection
+}
+
+class Cart {
+    + id: int
+    + sessionId: string
+    + createdAt: datetime
+    + updatedAt: datetime
+    --
+    + getItems(): Collection
+    + getTotal(): float
+    + getItemCount(): int
+}
+
+class CartItem {
+    + id: int
+    + quantity: int
+    + unitPrice: float
+    + createdAt: datetime
+}
+
+' ──────────────────────────────────────────────
+' RELATIONSHIPS
+' ──────────────────────────────────────────────
+
+Product "*" -- "*" Category : belongs to >
+Product "1" -- "0..1" FlashDeal : has >
+User "1" -- "0..*" Order : places >
+Order "1" -- "1..*" OrderItem : contains >
+OrderItem "*" -- "1" Product : references >
+Product "1" -- "0..*" Review : has >
+User "1" -- "0..*" Review : writes >
+Cart "1" -- "1..*" CartItem : contains >
+CartItem "*" -- "1" Product : references >
+User "1" -- "0..*" NewsletterSubscription : subscribes >
+ProductComparison "1" -- "*" Product : compares >
+
+note top of Product
+  Core product entity. Specifications
+  are stored as JSON (CPU, RAM, storage,
+  display, ports, weight, etc.)
+end note
+
+note top of FlashDeal
+  Time-bound discount linked to one product.
+  Renders in the Flash Deals section on
+  the homepage with countdown timer.
+end note
+
+note top of Category
+  Mapped to nav items:
+  Gaming | Business | Student |
+  Workstations | Accessories
+end note
+
+@enduml

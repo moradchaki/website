@@ -1,0 +1,51 @@
+{% extends 'auth_layout.html.twig' %}
+
+{% block title %}Sign In | LUMINA ELITE{% endblock %}
+
+{% block body %}
+<section class="min-h-[calc(100vh-80px)] flex items-center justify-center py-20">
+    <div class="w-full max-w-md px-margin-desktop">
+        <div class="text-center mb-12">
+            <h1 class="font-display-lg text-display-lg text-on-surface mb-4">Welcome Back</h1>
+            <p class="text-on-surface-variant font-body-lg text-body-lg">Sign in to access your account and orders.</p>
+        </div>
+
+        {% if error %}
+            <div class="mb-8 p-4 rounded-2xl bg-error-container text-on-error-container font-body-md">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            <div class="space-y-2">
+                <label for="email" class="flex items-center gap-2 font-label-md text-label-md text-on-surface font-medium">
+                    <span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+                </label>
+                <input type="email" id="email" name="_username" value="{{ lastEmail }}" required autofocus placeholder="your@email.com"
+                    class="w-full px-6 py-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all font-body-md" />
+            </div>
+
+            <div class="space-y-2">
+                <label for="password" class="flex items-center gap-2 font-label-md text-label-md text-on-surface font-medium">
+                    <span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+                </label>
+                <input type="password" id="password" name="_password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                    class="w-full px-6 py-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all font-body-md" />
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+            <button type="submit"
+                class="w-full bg-primary text-on-primary py-4 rounded-2xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined" data-icon="login">login</span>
+            </button>
+        </form>
+
+        <p class="mt-8 text-center text-on-surface-variant font-body-md">
+            <a href="{{ path('auth_register') }}" class="text-primary font-medium hover:underline flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-[18px]" data-icon="person_add">person_add</span>
+            </a>
+        </p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Orders | LUMINA ELITE{% endblock %}
+
+{% block body %}
+<section class="py-16 px-margin-desktop max-w-container-max mx-auto">
+    <div class="mb-12">
+        <h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">My Orders</h1>
+        <p class="text-on-surface-variant font-body-lg text-body-lg">{{ orders|length }} order{{ orders|length != 1 ? 's' : '' }}</p>
+    </div>
+
+    <div class="space-y-4">
+        {% for order in orders %}
+            <div class="bg-surface-container-lowest rounded-3xl border border-outline-variant/30 p-6 hover:shadow-premium transition-all">
+                <div class="flex items-center justify-between flex-wrap gap-4">
+                    <div>
+                        <p class="font-headline-lg text-[18px] text-on-surface">{{ order.orderNumber }}</p>
+                        <p class="text-on-surface-variant text-[13px]">{{ order.createdAt|date('F d, Y - H:i') }}</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-primary font-headline-lg text-[20px]">${{ order.totalAmount|number_format(2) }}</span>
+                        <span class="px-3 py-1 rounded-full text-[12px] font-medium {% if order.status.value == 'pending' %}bg-amber-100 text-amber-800{% elseif order.status.value == 'completed' %}bg-green-100 text-green-800{% else %}bg-surface-container-high text-on-surface-variant{% endif %}">{{ order.status.value|capitalize }}</span>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center py-20">
+                <span class="material-symbols-outlined text-5xl text-outline-variant block mb-4" data-icon="receipt_long">receipt_long</span>
+                <p class="text-on-surface-variant font-headline-lg text-headline-lg">No orders yet</p>
+                <p class="text-on-surface-variant font-body-md mt-2">Your orders will appear here after checkout.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

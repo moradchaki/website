@@ -1,0 +1,106 @@
+@startuml
+!theme plain
+skinparam backgroundColor #F7F9FB
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+title "LUMINA ELITE — Sequence Diagrams"
+
+' ===========================================================================
+' DIAGRAM 1: Product Browsing Flow
+' ===========================================================================
+
+header "1. Browse Products by Category"
+|||
+actor "Visitor" as visitor
+participant "Browser" as browser
+participant "Symfony\nFront Controller" as front
+participant "CategoryController" as ctrl
+participant "ProductRepository" as repo
+database "Database" as db
+participant "Twig Engine" as twig
+
+visitor -> browser: Click "Business" in navbar
+browser -> front: GET /business
+front -> ctrl: dispatch route
+ctrl -> repo: findByCategory('business')
+repo -> db: SELECT * FROM product\nJOIN product_category\nWHERE category.slug = 'business'
+db --> repo: result set
+repo --> ctrl: Product[] array
+ctrl -> twig: render('category/business.html.twig',\n{ products: products })
+twig -> ctrl: compiled HTML
+ctrl -> front: Response
+front -> browser: 200 OK
+browser -> visitor: Business page rendered
+
+' ===========================================================================
+' DIAGRAM 2: AI Product Finder Flow
+' ===========================================================================
+
+header "2. AI Product Finder"
+|||
+actor "Visitor" as visitor2
+participant "Browser" as browser2
+participant "FinderController" as finder
+participant "ProductRepository" as prepo
+participant "Recommendation\nEngine" as engine
+
+visitor2 -> browser2: Open AI Product Finder
+browser2 -> finder: GET /finder
+finder --> browser2: Render questionnaire form\n(budget, use case, perf, portability, display)
+visitor2 -> browser2: Fill in preferences
+browser2 -> finder: POST /finder/recommend
+finder -> engine: analyze(preferences)
+engine -> prepo: query matching products
+prepo --> engine: filtered products
+engine --> finder: ranked recommendations
+finder --> browser2: Top 3 product matches\nwith match percentage
+
+note right of engine
+  Scoring formula:
+  weight(budget) × 0.30
+  + weight(useCase) × 0.25
+  + weight(performance) × 0.20
+  + weight(portability) × 0.15
+  + weight(display) × 0.10
+end note
+
+' ===========================================================================
+' DIAGRAM 3: Checkout Flow
+' ===========================================================================
+
+header "3. Checkout & Payment"
+|||
+actor "Customer" as cust
+participant "Browser" as browser3
+participant "CartController" as cart
+participant "OrderController" as orderctrl
+participant "OrderService" as svc
+database "Database" as db3
+participant "Payment\nGateway" as pgw
+participant "Mailer" as mail
+
+cust -> browser3: Click "Checkout"
+browser3 -> cart: POST /cart/checkout
+cart -> svc: createOrderFromCart(cartId, userId)
+svc -> db3: SELECT cart_items JOIN products
+svc -> svc: calculate totals (subtotal, tax, shipping)
+svc -> db3: INSERT INTO `order`
+svc -> db3: INSERT INTO order_items
+svc -> db3: DELETE FROM cart_items
+svc --> cart: Order entity
+cart --> browser3: Redirect to /order/{id}/pay
+browser3 -> orderctrl: GET /order/{id}/pay
+orderctrl --> browser3: Payment form (stripe iframe)
+cust -> browser3: Enter card details
+browser3 -> pgw: POST /api/charges
+pgw --> browser3: { charge_id, status: succeeded }
+browser3 -> orderctrl: POST /order/{id}/confirm
+orderctrl -> svc: confirmOrder(orderId, chargeId)
+svc -> db3: UPDATE order SET status = 'CONFIRMED'
+svc -> mail: sendOrderConfirmationEmail(order)
+mail --> cust: "Your order #12345 has been confirmed"
+orderctrl --> browser3: Redirect to /order/{id}/thank-you
+browser3 -> cust: Order confirmation page with summary
+
+@enduml

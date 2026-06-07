@@ -1,0 +1,11 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Daily 06:00 — scrape eBay listings (≤15 new products)
+0 6 * * * php /var/www/bin/console app:scrape-ebay >> /var/www/var/log/scrape-ebay.log 2>&1
+
+# Daily 06:00 — generate 15 random laptops
+0 6 * * * php /var/www/bin/console app:auto-generate-laptops >> /var/www/var/log/auto-laptops.log 2>&1
+
+# Daily 07:00 — generate 15–20 random orders
+0 7 * * * php /var/www/bin/console app:auto-generate-orders >> /var/www/var/log/auto-orders.log 2>&1

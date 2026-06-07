@@ -1,0 +1,111 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Products | Admin | LUMINA ELITE{% endblock %}
+
+{% block page_title %}All Products{% endblock %}
+
+{% block body %}
+<div class="mb-6 flex items-center justify-between">
+    <p class="text-on-surface-variant font-body-md">{{ products|length }} products total</p>
+    <a href="{{ path('admin_product_new') }}" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+        Add Product
+    </a>
+</div>
+
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-3xl shadow-premium overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-outline-variant/20 bg-surface-container-low">
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Product</th>
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">SKU</th>
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Price</th>
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Stock</th>
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Categories</th>
+                    <th class="text-left px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+                    <th class="text-right px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/10">
+                {% for product in products %}
+                    <tr class="hover:bg-surface-container-low/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center overflow-hidden flex-shrink-0">
+                                    {% if product.imageUrl %}
+                                        <img src="{{ product.imageUrl }}" alt="" class="w-full h-full object-cover" />
+                                    {% else %}
+                                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="laptop">laptop</span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <p class="font-button-text text-button-text text-on-surface">{{ product.name }}</p>
+                                    <p class="text-on-surface-variant text-[13px]">{{ product.shortDescription|default('')|slice(0, 40) }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-on-surface font-body-md">{{ product.sku }}</td>
+                        <td class="px-6 py-4">
+                            <span class="font-button-text text-button-text text-on-surface">${{ product.price|number_format(2) }}</span>
+                            {% if product.salePrice %}
+                                <span class="text-green-600 text-[13px] ml-1">-${{ (product.price - product.salePrice)|number_format(2) }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% if product.stock < 10 %}
+                                <span class="px-3 py-1 rounded-full bg-red-50 text-red-700 font-label-md text-[12px]">{{ product.stock }} left</span>
+                            {% elseif product.stock < 25 %}
+                                <span class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 font-label-md text-[12px]">{{ product.stock }} left</span>
+                            {% else %}
+                                <span class="px-3 py-1 rounded-full bg-green-50 text-green-700 font-label-md text-[12px]">{{ product.stock }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                {% for category in product.categories %}
+                                    <span class="px-2 py-0.5 rounded-md bg-primary/5 text-primary text-[11px] font-medium">{{ category.name }}</span>
+                                {% else %}
+                                    <span class="text-on-surface-variant/50 text-[13px]">—</span>
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                {% if product.isFeatured %}
+                                    <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[11px] font-medium">Featured</span>
+                                {% endif %}
+                                {% if product.isNewArrival %}
+                                    <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[11px] font-medium">New</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ path('admin_product_edit', { id: product.id }) }}" class="px-3 py-2 rounded-xl text-primary hover:bg-primary/5 transition-all font-button-text text-button-text flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                                    Edit
+                                </a>
+                                <form method="post" action="{{ path('admin_product_delete', { id: product.id }) }}" onsubmit="return confirm('Delete {{ product.name }}?')" class="inline">
+                                    <button type="submit" class="px-3 py-2 rounded-xl text-error hover:bg-error/5 transition-all font-button-text text-button-text flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[16px]" data-icon="delete">delete</span>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-16 text-center">
+                            <span class="material-symbols-outlined text-5xl text-on-surface-variant/20 block mb-4" data-icon="inventory_2">inventory_2</span>
+                            <p class="text-on-surface-variant font-body-lg">No products found.</p>
+                            <a href="{{ path('admin_product_new') }}" class="inline-block mt-4 bg-primary text-on-primary px-6 py-3 rounded-xl font-button-text text-button-text hover:brightness-110 transition-all">Add Your First Product</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

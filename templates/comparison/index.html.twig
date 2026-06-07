@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compare Laptops | LUMINA ELITE{% endblock %}
+
+{% block body %}
+<section class="py-16 px-margin-desktop max-w-container-max mx-auto">
+    <div class="mb-12">
+        <h1 class="font-headline-xl text-headline-xl text-on-surface mb-4">Compare Models</h1>
+        <p class="text-on-surface-variant font-body-lg text-body-lg">Side-by-side analysis of your selected machines.</p>
+    </div>
+
+    {% if comparison is null or comparison.products is empty %}
+        <div class="text-center py-32 glass rounded-3xl">
+            <span class="material-symbols-outlined text-[80px] text-outline-variant" data-icon="compare_arrows">compare_arrows</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mt-6 mb-3">No Products to Compare</h2>
+            <p class="text-on-surface-variant font-body-md text-body-md max-w-md mx-auto mb-8">Add up to 4 laptops to compare their specs side by side.</p>
+            <a href="{{ path('homepage') }}" class="bg-primary text-on-primary px-8 py-4 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg inline-block">Browse Laptops</a>
+        </div>
+    {% else %}
+        {% set products = comparison.products %}
+        <div class="overflow-x-auto pb-8">
+            <div class="flex gap-6 min-w-[700px]" style="display: grid; grid-template-columns: 200px repeat({{ products|length }}, 1fr); gap: 0; border-collapse: collapse;">
+                <div class="contents">
+                    <div class="p-4"></div>
+                    {% for product in products %}
+                        <div class="p-6 text-center relative group">
+                            <form action="{{ path('comparison_remove', { id: product.id }) }}" method="POST" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button type="submit" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-error-container transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-on-surface-variant" data-icon="close">close</span>
+                                </button>
+                            </form>
+                            <div class="aspect-square mb-4 bg-surface-container-low rounded-2xl p-4 flex items-center justify-center">
+                                <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="w-full h-auto object-contain">
+                            </div>
+                            <h3 class="font-headline-lg text-[18px] leading-tight text-on-surface mb-1">{{ product.name }}</h3>
+                            <div class="flex items-center justify-center gap-2 mb-4">
+                                <span class="text-primary font-headline-lg text-[22px]">${{ product.effectivePrice|number_format(0) }}</span>
+                                {% if product.salePrice and product.salePrice < product.price %}
+                                    <span class="text-on-surface-variant/50 line-through text-sm">${{ product.price|number_format(0) }}</span>
+                                {% endif %}
+                            </div>
+                            <a href="{{ path('product_show', { slug: product.slug }) }}" class="block w-full bg-primary text-on-primary py-3 rounded-xl font-button-text text-button-text text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]" data-icon="open_in_new">open_in_new</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% set specLabels = {
+                    'processor': 'Processor',
+                    'ram': 'RAM',
+                    'storage': 'Storage',
+                    'display': 'Display',
+                    'graphics': 'Graphics',
+                    'battery': 'Battery',
+                    'weight': 'Weight',
+                    'os': 'Operating System'
+                } %}
+
+                {% for key, label in specLabels %}
+                    <div class="contents">
+                        <div class="p-4 border-t border-outline-variant/20 font-label-md text-label-md text-on-surface-variant font-bold flex items-center">{{ label }}</div>
+                        {% for product in products %}
+                            <div class="p-4 border-t border-outline-variant/20 text-center text-on-surface font-body-md text-body-md flex items-center justify-center">
+                                {{ product.specs[key] is defined and product.specs[key] is not null ? product.specs[key] : '—' }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <div class="contents">
+                    <div class="p-4 border-t border-outline-variant/20 font-label-md text-label-md text-on-surface-variant font-bold flex items-center">Price</div>
+                    {% for product in products %}
+                        <div class="p-4 border-t border-outline-variant/20 text-center flex items-center justify-center">
+                            <span class="text-primary font-headline-lg text-[20px]">${{ product.effectivePrice|number_format(0) }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="contents">
+                    <div class="p-4 border-t border-outline-variant/20 font-label-md text-label-md text-on-surface-variant font-bold flex items-center">Stock</div>
+                    {% for product in products %}
+                        <div class="p-4 border-t border-outline-variant/20 text-center font-body-md text-body-md flex items-center justify-center">
+                            {% if product.stock > 0 %}
+                                <span class="text-primary font-medium">{{ product.stock > 10 ? 'In Stock' : 'Only ' ~ product.stock ~ ' left' }}</span>
+                            {% else %}
+                                <span class="text-error font-medium">Out of Stock</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="contents">
+                    <div class="p-4 border-t border-outline-variant/20 font-label-md text-label-md text-on-surface-variant font-bold flex items-center">Rating</div>
+                    {% for product in products %}
+                        <div class="p-4 border-t border-outline-variant/20 text-center font-body-md text-body-md flex items-center justify-center">
+                            {% set rating = product.averageRating %}
+                            {% if rating %}
+                                <span class="text-primary font-medium">{{ rating }}/5</span>
+                            {% else %}
+                                <span class="text-on-surface-variant/50">No reviews</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 glass rounded-2xl p-6 flex flex-wrap items-center justify-between gap-4">
+            <p class="text-on-surface-variant font-body-md text-body-md">
+                <span class="font-bold text-on-surface">{{ products|length }}</span> of <span class="font-bold text-on-surface">4</span> slots used
+            </p>
+            <div class="flex gap-3">
+                <a href="{{ path('homepage') }}" class="border-2 border-primary text-primary px-6 py-3 rounded-xl font-button-text text-button-text hover:bg-primary/5 transition-all">Add More</a>
+                <button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg"
+                    onclick="window.print()">Print Comparison</button>
+            </div>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

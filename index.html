@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>LUMINA ELITE | Precision Engineered Luxury</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .shadow-premium {
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent),
+                radial-gradient(circle at bottom left, rgba(96, 1, 209, 0.08), transparent);
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0053db",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#dbe1ff",
+                        "on-primary-container": "#00174b",
+                        "secondary": "#6001d1",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#eaddff",
+                        "on-secondary-container": "#25005a",
+                        "tertiary": "#8d4f00",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#ffdbcd",
+                        "on-tertiary-container": "#360f00",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#410002",
+                        "background": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "surface-variant": "#dfe2eb",
+                        "on-surface-variant": "#43474e",
+                        "outline": "#73777f",
+                        "outline-variant": "#c3c6cf",
+                        "inverse-surface": "#2e3133",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-dim": "#d8dadc",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceeef",
+                        "surface-container-high": "#e6e8e9",
+                        "surface-container-highest": "#e0e2e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "button-text": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Geist"],
+                        "label-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "button-text": ["16px", { "lineHeight": "1", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+    <!-- Top Navigation Bar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-premium">
+        <div class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+            <div class="flex items-center gap-12">
+                <a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary" href="#">LUMINA
+                    ELITE</a>
+                <div class="hidden md:flex gap-8 items-center">
+                    <a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300"
+                        href="#">Gaming</a>
+                    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-label-md text-label-md"
+                        href="#">Business</a>
+                    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-label-md text-label-md"
+                        href="#">Student</a>
+                    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-label-md text-label-md"
+                        href="#">Workstations</a>
+                    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-label-md text-label-md"
+                        href="#">Accessories</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform"
+                    data-icon="compare_arrows">compare_arrows</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform"
+                    data-icon="shopping_cart">shopping_cart</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform"
+                    data-icon="account_circle">account_circle</span>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="relative min-h-[921px] flex items-center overflow-hidden hero-gradient">
+            <div
+                class="px-margin-desktop max-w-container-max mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+                <div class="space-y-8">
+                    <div
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary font-label-md text-label-md">
+                        <span class="mr-2">NEW ARRIVAL</span>
+                        <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                    </div>
+                    <h1 class="font-display-lg text-display-lg leading-none text-on-surface">The Future of <br /><span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">High
+                            Performance.</span></h1>
+                    <p class="text-on-surface-variant font-body-lg text-body-lg max-w-lg">Experience unprecedented power
+                        with the new Lumina Elite Series. Engineered for those who demand absolute technical superiority
+                        and seamless aesthetics.</p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button
+                            class="bg-primary text-on-primary px-8 py-4 rounded-xl font-button-text text-button-text hover:brightness-110 active:scale-95 transition-all shadow-lg">Explore
+                            Collection</button>
+                        <button
+                            class="border-2 border-primary text-primary px-8 py-4 rounded-xl font-button-text text-button-text hover:bg-primary/5 transition-all">Compare
+                            Models</button>
+                    </div>
+                </div>
+                <div class="relative flex justify-center items-center">
+                    <div class="absolute w-[120%] h-[120%] bg-primary/5 blur-[100px] rounded-full"></div>
+                    <img alt="A futuristic, hyper-realistic 3D render of a slim carbon-fiber laptop suspended in mid-air against a deep slate background. The device is illuminated by cinematic neon blue and soft violet lighting from multiple angles, highlighting its brushed metal texture and sharp edges. The screen glows with a vibrant, high-refresh rate abstract wallpaper, casting a soft indigo glow. The overall atmosphere is premium, sophisticated, and technologically advanced."
+                        class="relative z-10 w-full h-auto drop-shadow-2xl animate-float"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJfwXiB2xRohxsBMLoSdLngbKQy6o4ohE6XCh-_SrwqRMCGsZR1UYWW6VG4zJKUCVG9qMc3uzlt8_k2HfxXpUOKFwYygobhEBh6QSvCezKZMFuHx0w12tGE731a1e4JSgep4RNbFZW0JCpV2VPm3yUIYyRqMIL4tVxp17OiTIxll1QZPqq5KuZqZoovVwW5HZVoqI_6PJb4-EIaP3gcyNrPmX6a99kXMUlHNOb3zNFHGAdhqcf0SgjWoYACZh-FKh55O0nOmW1agU" />
+                </div>
+            </div>
+        </section>
+        <!-- Brand Carousel -->
+        <section class="py-12 bg-surface-container-lowest border-y border-outline-variant/20">
+            <div class="max-w-container-max mx-auto px-margin-desktop">
+                <div
+                    class="flex flex-wrap justify-between items-center gap-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700 text-on-surface">
+                    <span class="font-headline-lg font-bold">RAZER</span>
+                    <span class="font-headline-lg font-bold">APPLE</span>
+                    <span class="font-headline-lg font-bold">ASUS</span>
+                    <span class="font-headline-lg font-bold">DELL</span>
+                    <span class="font-headline-lg font-bold">MSI</span>
+                </div>
+            </div>
+        </section>
+        <!-- Featured Categories (Bento Grid) -->
+        <section class="py-40 px-margin-desktop max-w-container-max mx-auto">
+            <div class="mb-16">
+                <h2 class="font-headline-xl text-headline-xl mb-4 text-on-surface">Master Your Domain</h2>
+                <p class="text-on-surface-variant font-body-lg text-body-lg">Precision tools for every professional
+                    vertical.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter h-[600px]">
+                <div
+                    class="md:col-span-2 group relative overflow-hidden rounded-3xl glass transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-surface-container-highest/60 to-transparent z-10">
+                    </div>
+                    <img alt="A dramatic wide shot of a high-end gaming setup in a dimly lit room with deep blue ambient lighting. A sophisticated matte black gaming laptop sits at the center, its RGB keyboard glowing with a custom electric blue pattern. Beside it are premium peripherals and an oversized ultra-wide monitor displaying an immersive high-fidelity game world. The scene is clean, minimalist, and exudes a sense of elite performance and high-stakes competition."
+                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJVu9POKXDjLalcdMPzbl7dN2SsGWFmmPqUlhMk_FkCcTRVnr1NGobVlVPhi_YgNWts-H1-h2x_bAyc4Hmm86VEY_ADsh2h4dVP8SeRxkcdrLaaLIwmstpJNjWkAw6a7m_KnsXs3qpRnTvnMGvfRDj5lyjSR6hT37Vi9BLlcgGfMKePJAmodYAplMYPZcMorBGxf3_ext3jXgVSVrzsaj1SV0xJ_NlELqxHxKTV5wGnkiO-4kqrXvLzMS2BUAYTfA8zgP7s4LNadg" />
+                    <div class="relative z-20 p-12 h-full flex flex-col justify-end">
+                        <span class="text-primary font-label-md text-label-md tracking-widest uppercase mb-4">Power
+                            Unbound</span>
+                        <h3 class="font-headline-lg text-headline-lg mb-4 text-white drop-shadow-md">Elite Gaming</h3>
+                        <p class="text-white max-w-md drop-shadow-md">Uncompromising frame rates and liquid-smooth
+                            visuals for the serious competitor.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-gutter">
+                    <div
+                        class="h-1/2 group relative overflow-hidden rounded-3xl glass transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-surface-container-highest/60 to-transparent z-10">
+                        </div>
+                        <img alt="A clean, minimalist office desk featuring a sleek, silver professional laptop on a high-quality leather desk pad. The environment is flooded with natural daylight from a large window, creating a bright and airy light-mode feel. Small aesthetic plants and a minimalist desk clock provide a calm, productive atmosphere. The focus is on clean lines, luxury materials, and a sense of effortless corporate sophistication."
+                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpQkbCL4uVP4hTiNbuk1W-DtX3OQnAdEuLjWQGyzovWsFAWJdZzAZeVhF-KmTtc2NXZeki2d0gFa_VGIk0Gr6ZVaQjF059Kvvz2DbDMM7TuUyPpsxnB24FHykR9ckhidnHAjkQ1O4LkBF_h4FCDaIGb7ZqVRkl57VR1rVwHhVHEkrtQu8aea0-9Gi2DlQrCybE4vmtfC5uuye6rpNq9LvRqQd_mUep4IA6eMObqJVGYTjcWmrpRE1GM-PPbBl39fSOGW9KB5ZiEII" />
+                        <div class="relative z-20 p-8 h-full flex flex-col justify-end">
+                            <h3 class="font-headline-lg text-headline-lg mb-2 text-white drop-shadow-md">Business</h3>
+                        </div>
+                    </div>
+                    <div
+                        class="h-1/2 group relative overflow-hidden rounded-3xl glass transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-surface-container-highest/60 to-transparent z-10">
+                        </div>
+                        <img alt="A close-up view of a professional studio workstation where a powerful computer is being used for complex 3D rendering and video editing. The screen displays intricate structural blueprints with vibrant colored highlights. The room is dark, lit only by the soft glow of the monitor and warm industrial-style desk lamps, creating a focused, high-productivity mood. The aesthetic is technical, precise, and highly sophisticated."
+                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf_naB2xx5c8SNmSSVxs_xh3ieJ25waBP-jN_yFavr-Sa7ymzSmn_TKj_x4c4HN5YnIC17G31qO4-Mc_qpeaSIoIkJgB-US3B9x-ZCpj6kBQTtMbypFO9qYaD0Gu2LiXVzyK7mwhvKhJ1gBkHzN6RTB4EoMpMzkDE7j8Addh_zDeTV_u_LXQ7oTUAFjh8sdax-T4cmim1_U333eF-jjjoFGUbIEzfec0uvTQmyr3OSnXEfC_XAaVtUCNj8DQ4A-wzRcKRT6WWKWYs" />
+                        <div class="relative z-20 p-8 h-full flex flex-col justify-end">
+                            <h3 class="font-headline-lg text-headline-lg mb-2 text-white drop-shadow-md">Workstations
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- AI Product Finder Section -->
+        <section class="py-40 bg-surface-container-low relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] -rotate-12 translate-x-1/2"></div>
+            <div class="px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row gap-16 items-center">
+                <div class="w-full md:w-80 shrink-0">
+                    <div
+                        class="p-gutter space-y-4 bg-surface-container-lowest rounded-3xl shadow-premium border border-outline-variant/30">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary"
+                                    data-icon="laptop_mac">laptop_mac</span>
+                            </div>
+                            <div>
+                                <h4 class="font-label-md text-label-md text-primary font-bold">AI Product Finder</h4>
+                                <p class="text-[10px] text-on-surface-variant opacity-70">Engineered for your needs</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-4 p-3 bg-primary text-on-primary rounded-xl font-bold">
+                                <span class="material-symbols-outlined" data-icon="payments">payments</span>
+                                <span class="font-label-md text-label-md">Budget</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-4 p-3 text-on-surface-variant hover:bg-surface-container transition-all">
+                                <span class="material-symbols-outlined" data-icon="laptop_mac">laptop_mac</span>
+                                <span class="font-label-md text-label-md">Use Case</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-4 p-3 text-on-surface-variant hover:bg-surface-container transition-all">
+                                <span class="material-symbols-outlined" data-icon="speed">speed</span>
+                                <span class="font-label-md text-label-md">Performance</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-4 p-3 text-on-surface-variant hover:bg-surface-container transition-all">
+                                <span class="material-symbols-outlined" data-icon="height">height</span>
+                                <span class="font-label-md text-label-md">Portability</span>
+                            </div>
+                            <div
+                                class="flex items-center gap-4 p-3 text-on-surface-variant hover:bg-surface-container transition-all">
+                                <span class="material-symbols-outlined" data-icon="monitor">monitor</span>
+                                <span class="font-label-md text-label-md">Display</span>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full mt-6 bg-primary text-on-primary py-4 rounded-xl font-button-text text-button-text shadow-lg hover:brightness-110 transition-all">Find
+                            My Match</button>
+                    </div>
+                </div>
+                <div class="flex-1 space-y-8">
+                    <h2 class="font-headline-xl text-headline-xl text-on-surface">Engineered for <span
+                            class="text-primary italic">You.</span></h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Stop scrolling through
+                        endless specs. Our neural-guided product finder analyzes your specific workflows to recommend
+                        the exact hardware architecture your ambition requires.</p>
+                    <div class="grid grid-cols-2 gap-8 pt-8">
+                        <div
+                            class="p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+                            <span class="font-headline-lg text-headline-lg text-primary block mb-2">99.8%</span>
+                            <span class="text-on-surface-variant font-label-md">Recommendation Accuracy</span>
+                        </div>
+                        <div
+                            class="p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+                            <span class="font-headline-lg text-headline-lg text-secondary block mb-2">15k+</span>
+                            <span class="text-on-surface-variant font-label-md">Configurations Indexed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Flash Deals -->
+        <section class="py-20 px-margin-desktop max-w-container-max mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+                <div>
+                    <h2 class="font-headline-xl text-headline-xl text-error">Flash Deals</h2>
+                    <p class="text-on-surface-variant font-body-lg text-body-lg">Limited time precision, unlimited
+                        power.</p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <div class="flex flex-col items-center p-3 glass rounded-xl min-w-[70px] shadow-sm">
+                        <span class="font-headline-lg text-on-surface" id="timer-h">08</span>
+                        <span class="text-[10px] text-primary uppercase font-bold">Hrs</span>
+                    </div>
+                    <span class="font-headline-lg text-primary">:</span>
+                    <div class="flex flex-col items-center p-3 glass rounded-xl min-w-[70px] shadow-sm">
+                        <span class="font-headline-lg text-on-surface" id="timer-m">42</span>
+                        <span class="text-[10px] text-primary uppercase font-bold">Min</span>
+                    </div>
+                    <span class="font-headline-lg text-primary">:</span>
+                    <div class="flex flex-col items-center p-3 glass rounded-xl min-w-[70px] shadow-sm">
+                        <span class="font-headline-lg text-on-surface" id="timer-s">15</span>
+                        <span class="text-[10px] text-primary uppercase font-bold">Sec</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+                <!-- Deal Card -->
+                <div
+                    class="group relative bg-surface-container-lowest rounded-3xl border border-outline-variant/30 overflow-hidden transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                    <div
+                        class="absolute top-4 left-4 z-20 px-3 py-1 bg-error text-on-error rounded-full font-label-md text-label-md">
+                        -25%</div>
+                    <div
+                        class="aspect-square p-8 flex items-center justify-center relative overflow-hidden bg-surface-container-low">
+                        <div
+                            class="absolute inset-0 bg-primary/5 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full">
+                        </div>
+                        <img alt="A side-profile shot of a sleek, space-gray laptop on a clean white surface. The laptop is extremely thin, with visible precision-milled vent holes along the side. The lighting is bright and clean, emphasizing the high-end industrial design and premium build quality of the device. The background is a soft, out-of-focus studio gray."
+                            class="relative z-10 w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdrOUrl7rkwYjmC0UY0-CwZMURj8svOwXY315CyhRZ5cIWuWVgteUkzjgVLL_FRgfA2W7uWszytWoyeNhgR2DdlAwy9_N9FgqGF_xOmS0tuw9wmheImepE7DYAUBSXzPJnoar5Jg5kWHZrRCfH_hKnC1wVb-5YR5TDukrNjmUqlZoh2RGUDHGQqHALFl2i9r_kKEJUob_vzv_MtMoLxMeTvmS0AdpwNEZFYReDuKWn4o8zgcHVFvdFxobMqc0Q7IMw_YilQGdenJw" />
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h4 class="font-headline-lg text-[20px] leading-tight text-on-surface">Lumina Blade 14"</h4>
+                        <div class="flex items-center gap-3">
+                            <span class="text-primary font-headline-lg text-[24px]">$1,899</span>
+                            <span class="text-on-surface-variant/50 line-through text-body-md">$2,499</span>
+                        </div>
+                        <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-error h-full w-[70%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[12px] text-on-surface-variant font-medium">
+                            <span>Sold: 42</span>
+                            <span>Remaining: 18</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat deal cards -->
+                <div
+                    class="group relative bg-surface-container-lowest rounded-3xl border border-outline-variant/30 overflow-hidden transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                    <div
+                        class="absolute top-4 left-4 z-20 px-3 py-1 bg-error text-on-error rounded-full font-label-md text-label-md">
+                        -15%</div>
+                    <div
+                        class="aspect-square p-8 flex items-center justify-center relative overflow-hidden bg-surface-container-low">
+                        <div
+                            class="absolute inset-0 bg-primary/5 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full">
+                        </div>
+                        <img alt="A top-down view of an open laptop on a minimalist wooden desk. The keyboard is backlit with a soft white glow, and the screen shows a high-resolution landscape photograph. The wood grain of the desk provides a warm, organic contrast to the cold, metallic finish of the hardware. The lighting is soft and natural, suggesting a quiet, luxury home office setting."
+                            class="relative z-10 w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvcB3HVNaA3obe2mr1nzqK3HxsRuQjP2i76EQxBo7QemMsdOZhOiQv13u5rZgGQDRK8moUGFbTTi36_r5lxbgNd9PkVPGAu9hL5ojD7fgSq1ywZUGajViE0Ih4WP_Rhkr4ynm6DRietRHFKL-awk9Uc9QLAUm_oXd9I8spe2TNRRa8pWVfKTcXGifBYVXLxxVB0Z2c0MZCrLjH_caL-WgoQhlVola4F5807hE8R_FpgOW9tMN5_skKr7fSTgNZUP35uX6Qtk6V1Jo" />
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h4 class="font-headline-lg text-[20px] leading-tight text-on-surface">Titan X Pro</h4>
+                        <div class="flex items-center gap-3">
+                            <span class="text-primary font-headline-lg text-[24px]">$3,150</span>
+                            <span class="text-on-surface-variant/50 line-through text-body-md">$3,700</span>
+                        </div>
+                        <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-error h-full w-[40%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[12px] text-on-surface-variant font-medium">
+                            <span>Sold: 12</span>
+                            <span>Remaining: 38</span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="group relative bg-surface-container-lowest rounded-3xl border border-outline-variant/30 overflow-hidden transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                    <div
+                        class="absolute top-4 left-4 z-20 px-3 py-1 bg-error text-on-error rounded-full font-label-md text-label-md">
+                        -30%</div>
+                    <div
+                        class="aspect-square p-8 flex items-center justify-center relative overflow-hidden bg-surface-container-low">
+                        <div
+                            class="absolute inset-0 bg-primary/5 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full">
+                        </div>
+                        <img alt="A dramatic high-angle shot of a matte black workstation laptop on a glass desk. The glass surface reflects the sharp, architectural lines of the computer. The scene is illuminated by cool blue studio lights, emphasizing the technical, high-performance nature of the product. The mood is dark, professional, and exclusive."
+                            class="relative z-10 w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0AA4TXl4AR8b_eX40565XoTm4jbrOPeWK-tSbUxyG5d5SiaJh2h6z2AuCRNaV1U1_5HR-trAXRuaFLqs6W8vzbTp9Zncwxw-OIenukrvc4oVSX7SNv87od26pVaLm-i63HLhpXWIbs8V8rst43W7RJrD6uTN9JUDNUJ5VAFlJnogT5uHOLorpOXrIReEUqrm28zxe0S5YQTeJuOtOZdgkecK4gV4cD98MoaHUbQ3Z_LQCDwWyIklguScA6RSj850WfplW5XFxRPI" />
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h4 class="font-headline-lg text-[20px] leading-tight text-on-surface">Vector 15s</h4>
+                        <div class="flex items-center gap-3">
+                            <span class="text-primary font-headline-lg text-[24px]">$1,299</span>
+                            <span class="text-on-surface-variant/50 line-through text-body-md">$1,999</span>
+                        </div>
+                        <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-error h-full w-[90%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[12px] text-on-surface-variant font-medium">
+                            <span>Sold: 145</span>
+                            <span>Remaining: 5</span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="group relative bg-surface-container-lowest rounded-3xl border border-outline-variant/30 overflow-hidden transition-all hover:translate-y-[-8px] hover:shadow-premium">
+                    <div
+                        class="absolute top-4 left-4 z-20 px-3 py-1 bg-error text-on-error rounded-full font-label-md text-label-md">
+                        -10%</div>
+                    <div
+                        class="aspect-square p-8 flex items-center justify-center relative overflow-hidden bg-surface-container-low">
+                        <div
+                            class="absolute inset-0 bg-primary/5 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full">
+                        </div>
+                        <img alt="A minimalist tech-still featuring a thin metallic laptop and wireless earbuds. The composition is clean and symmetric, set against a dark, textured slate background. The lighting is moody and focused, highlighting the premium finish of the hardware. The color palette is restricted to dark grays and silver, with tiny LED accents for a modern feel."
+                            class="relative z-10 w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd-LWM5B4lGm8fv7XzEzpbfTOeiLaf-vFhkhgA5hpmHyCw_YICiy1iGGsfwu3smP57m27hmwuL7GEKbYDMv3kIHkNF45hpaD516i7-AQU77oDoJOfOpyqH_64PcaevvfJ9omId5YNkntbrCkZezk0WwzOaNQer1Vhs_BPqknqjINsiUBJ5YBWHuXDN-MCwQcJEwwjYC-DifIAsv-dUluFrh6PqLmSqJ2z9rDcS7xTDVIbJ9dtHgmeYhnxGX4Hza19ZcCzltAlJoCM" />
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h4 class="font-headline-lg text-[20px] leading-tight text-on-surface">Nexus G1</h4>
+                        <div class="flex items-center gap-3">
+                            <span class="text-primary font-headline-lg text-[24px]">$2,429</span>
+                            <span class="text-on-surface-variant/50 line-through text-body-md">$2,699</span>
+                        </div>
+                        <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-error h-full w-[25%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[12px] text-on-surface-variant font-medium">
+                            <span>Sold: 5</span>
+                            <span>Remaining: 15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Newsletter Section -->
+        <section class="py-40 px-margin-desktop">
+            <div class="max-w-container-max mx-auto rounded-[40px] overflow-hidden relative shadow-premium">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary"></div>
+                <div class="absolute inset-0 shimmer opacity-10"></div>
+                <div class="relative z-10 p-16 md:p-24 flex flex-col items-center text-center space-y-8">
+                    <h2 class="font-display-lg text-white max-w-2xl">Stay at the Edge of Innovation</h2>
+                    <p class="text-white/90 font-body-lg text-body-lg max-w-xl">Join the Elite inner circle for
+                        exclusive early access to hardware drops and technical insights.</p>
+                    <form class="flex flex-col md:flex-row gap-4 w-full max-w-xl pt-4">
+                        <input
+                            class="flex-1 px-8 py-5 rounded-2xl bg-white/10 border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all backdrop-blur-md"
+                            placeholder="Your professional email" type="email" />
+                        <button
+                            class="bg-white text-primary px-10 py-5 rounded-2xl font-button-text text-button-text hover:shadow-xl active:scale-95 transition-all">Subscribe
+                            Now</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Bottom Navigation Bar (Mobile only) -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 w-full z-40 rounded-t-xl bg-surface/90 backdrop-blur-2xl border-t border-outline-variant/30 shadow-premium h-20">
+        <div class="flex justify-center items-center h-full gap-8 px-4">
+            <div
+                class="text-on-surface-variant flex items-center gap-2 px-4 hover:bg-black/5 transition-all rounded-lg py-2">
+                <span class="material-symbols-outlined" data-icon="devices">devices</span>
+                <span class="font-label-md text-label-md hidden sm:block">Models</span>
+            </div>
+            <div
+                class="text-on-surface-variant flex items-center gap-2 px-4 hover:bg-black/5 transition-all rounded-lg py-2">
+                <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                <span class="font-label-md text-label-md hidden sm:block">Specs</span>
+            </div>
+            <div
+                class="bg-primary text-on-primary rounded-full px-6 py-2 flex items-center gap-2 shadow-lg active:scale-95 transition-all">
+                <span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+                <span class="font-label-md text-label-md">Compare</span>
+            </div>
+        </div>
+    </nav>
+    <!-- Footer -->
+    <footer class="w-full relative mt-20 bg-surface-container-lowest border-t border-outline-variant/30">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-16 max-w-container-max mx-auto">
+            <div class="col-span-1 md:col-span-1 space-y-6">
+                <a class="font-headline-lg text-headline-lg text-primary font-bold tracking-tighter" href="#">LUMINA
+                    ELITE</a>
+                <p class="text-on-surface-variant font-body-md text-body-md">Redefining high-performance luxury
+                    computing through precision engineering and avant-garde design.</p>
+            </div>
+            <div class="space-y-6">
+                <h5 class="text-on-surface font-bold font-label-md">Products</h5>
+                <ul class="space-y-4">
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Gaming Series</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Workstations</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Business Ultra</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h5 class="text-on-surface font-bold font-label-md">Resources</h5>
+                <ul class="space-y-4">
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Support</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Drivers &amp; Firmware</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Warranty</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h5 class="text-on-surface font-bold font-label-md">Legal</h5>
+                <ul class="space-y-4">
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Terms of Service</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                            href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="px-margin-desktop py-8 border-t border-outline-variant/10 max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <span class="text-on-surface-variant font-label-md opacity-60">© 2024 LUMINA ELITE. Precision Engineered
+                Luxury.</span>
+            <div class="flex gap-6">
+                <span
+                    class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors"
+                    data-icon="share">share</span>
+                <span
+                    class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors"
+                    data-icon="language">language</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function updateTimer() {
+            const h = document.getElementById('timer-h');
+            const m = document.getElementById('timer-m');
+            const s = document.getElementById('timer-s');
+
+            let hours = parseInt(h.innerText);
+            let mins = parseInt(m.innerText);
+            let secs = parseInt(s.innerText);
+
+            setInterval(() => {
+                if (secs > 0) {
+                    secs--;
+                } else {
+                    secs = 59;
+                    if (mins > 0) {
+                        mins--;
+                    } else {
+                        mins = 59;
+                        if (hours > 0) hours--;
+                    }
+                }
+                h.innerText = hours.toString().padStart(2, '0');
+                m.innerText = mins.toString().padStart(2, '0');
+                s.innerText = secs.toString().padStart(2, '0');
+            }, 1000);
+        }
+        updateTimer();
+    </script>
+</body>
+
+</html>

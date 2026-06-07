@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Wishlist{% endblock %}
+
+{% block body %}
+<div class="max-w-container-max mx-auto px-margin-desktop py-12">
+    <h1 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-8">My Wishlist</h1>
+    {% if products is empty %}
+        <div class="text-center py-20">
+            <span class="material-symbols-outlined text-[64px] text-on-surface-variant/40">favorite_border</span>
+            <p class="text-on-surface-variant font-body-lg text-body-lg mt-4">Your wishlist is empty. Start liking products!</p>
+            <a href="{{ path('product_index') }}" class="inline-block mt-6 bg-primary text-on-primary px-6 py-3 rounded-xl font-button-text text-button-text hover:brightness-110 transition-all">Browse Products</a>
+        </div>
+    {% else %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for product in products %}
+                <twig:ProductCard :product="product" />
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

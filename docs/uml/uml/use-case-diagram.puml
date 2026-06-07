@@ -1,0 +1,126 @@
+@startuml
+!theme plain
+skinparam backgroundColor #F7F9FB
+skinparam shadowing false
+left to right direction
+
+title "LUMINA ELITE — Use Case Diagram"
+
+' ──────────────────────────────────────────────
+' ACTORS
+' ──────────────────────────────────────────────
+
+actor "Visitor" as visitor
+actor "Customer" as customer
+actor "Student" as student
+actor "Admin" as admin
+actor "Payment Gateway" as payment
+
+' ──────────────────────────────────────────────
+' SYSTEM BOUNDARY
+' ──────────────────────────────────────────────
+
+rectangle "LUMINA ELITE E-Commerce Platform" {
+    ' ── Browsing & Discovery ──
+    usecase "UC01\nBrowse Products" as UC01
+    usecase "UC02\nFilter by Category" as UC02
+    usecase "UC03\nSearch Products" as UC03
+    usecase "UC04\nView Product Details" as UC04
+    usecase "UC05\nCompare Products" as UC05
+    usecase "UC06\nView Flash Deals" as UC06
+
+    ' ── AI Finder ──
+    usecase "UC07\nUse AI Product Finder" as UC07
+
+    ' ── Cart & Checkout ──
+    usecase "UC08\nAdd to Cart" as UC08
+    usecase "UC09\nManage Cart" as UC09
+    usecase "UC10\nCheckout" as UC10
+    usecase "UC11\nProcess Payment" as UC11
+
+    ' ── Account ──
+    usecase "UC12\nRegister / Login" as UC12
+    usecase "UC13\nView Order History" as UC13
+    usecase "UC14\nWrite Review" as UC14
+
+    ' ── Student ──
+    usecase "UC15\nVerify Student Status" as UC15
+    usecase "UC16\nAccess Student Discounts" as UC16
+
+    ' ── Newsletter ──
+    usecase "UC17\nSubscribe to Newsletter" as UC17
+
+    ' ── Admin ──
+    usecase "UC18\nManage Products" as UC18
+    usecase "UC19\nManage Categories" as UC19
+    usecase "UC20\nManage Flash Deals" as UC20
+    usecase "UC21\nProcess Orders" as UC21
+    usecase "UC22\nManage Reviews" as UC22
+    usecase "UC23\nView Analytics" as UC23
+}
+
+' ──────────────────────────────────────────────
+' ACTOR RELATIONSHIPS
+' ──────────────────────────────────────────────
+
+' Visitor can do these
+visitor --> UC01
+visitor --> UC02
+visitor --> UC03
+visitor --> UC04
+visitor --> UC05
+visitor --> UC06
+visitor --> UC07
+visitor --> UC17
+
+' Customer inherits visitor, adds these
+customer --> UC08
+customer --> UC09
+customer --> UC10
+customer --> UC12
+customer --> UC13
+customer --> UC14
+
+' Student extends customer
+student --> UC15
+student --> UC16
+
+' Admin
+admin --> UC18
+admin --> UC19
+admin --> UC20
+admin --> UC21
+admin --> UC22
+admin --> UC23
+
+' Payment gateway
+payment --> UC11
+
+' ──────────────────────────────────────────────
+' INCLUDE / EXTEND
+' ──────────────────────────────────────────────
+
+UC10 --> UC11 : includes
+UC01 --> UC02 : includes
+UC05 --> UC04 : includes
+UC16 --> UC15 : extends
+UC14 --> UC12 : extends
+
+' ──────────────────────────────────────────────
+' NOTES
+' ──────────────────────────────────────────────
+
+note bottom of UC07
+  AI-guided questionnaire that
+  recommends a product based on
+  budget, use case, performance,
+  portability, and display preferences
+end note
+
+note bottom of UC06
+  Countdown timer products with
+  limited stock and percentage
+  discounts displayed on homepage
+end note
+
+@enduml
