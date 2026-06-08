@@ -33,4 +33,30 @@ class OrderRepository extends ServiceEntityRepository
     {
         return $this->findBy([], ['createdAt' => 'DESC'], $limit);
     }
+
+    public function getOrderStats(): array
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->select('o.status', 'COUNT(o.id) as order_count', 'SUM(o.totalAmount) as revenue')
+            ->groupBy('o.status');
+
+        $results = $qb->getQuery()->getResult();
+
+        $stats = [];
+        foreach ($results as $row) {
+            $status = $row['status'] instanceof OrderStatus ? $row['status']->value : $row['status'];
+            $stats[$status] = [
+                'count' => (int) $row['order_count'],
+                'revenue' => (float) ($row['revenue'] ?? 0),
+            ];
+        }
+
+        foreach (OrderStatus::cases() as $status) {
+            if (!isset($stats[$status->value])) {
+                $stats[$status->value] = ['count' => 0, 'revenue' => 0.0];
+            }
+        }
+
+        return $stats;
+    }
 }

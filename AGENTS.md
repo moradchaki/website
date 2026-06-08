@@ -42,6 +42,17 @@ Logs written to `var/log/scrape-ebay.log`, `var/log/auto-laptops.log`, `var/log/
 
 Cron schedules are in `docker/cron/crontab`. The `cron` service in `compose.yaml` runs the PHP image with dcron and mounts the app volume, so all three commands fire automatically at their scheduled times via `docker compose up -d`.
 
+**Windows dev machine**: Two Windows Task Scheduler tasks are registered:
+- `LaptopsDailyGenerate` — daily 06:00, runs `app:auto-generate-laptops`
+- `OrdersDailyGenerate` — daily 07:00, runs `app:auto-generate-orders`
+
+Recreate them manually (run as admin if you want them to run when logged out):
+```powershell
+$action = New-ScheduledTaskAction -Execute "php" -Argument "bin/console app:auto-generate-laptops" -WorkingDirectory "C:\path\to\project"
+$trigger = New-ScheduledTaskTrigger -Daily -At 06:00
+Register-ScheduledTask -TaskName "LaptopsDailyGenerate" -Action $action -Trigger $trigger
+```
+
 ## Database
 
 - MariaDB on port **3307** (not the default 3306)

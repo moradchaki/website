@@ -1,0 +1,116 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Transactions | Admin | LUMINA ELITE{% endblock %}
+
+{% block page_title %}Transactions{% endblock %}
+
+{% block body %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4" data-icon="receipt">receipt</span>
+        <p class="font-headline-xl text-headline-xl text-on-surface font-bold">{{ total_orders }}</p>
+        <p class="text-on-surface-variant font-body-md mt-1">Total Orders</p>
+    </div>
+    <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4" data-icon="payments">payments</span>
+        <p class="font-headline-xl text-headline-xl text-on-surface font-bold">${{ total_revenue|number_format(0) }}</p>
+        <p class="text-on-surface-variant font-body-md mt-1">Total Revenue</p>
+    </div>
+    <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4" data-icon="trending_up">trending_up</span>
+        <p class="font-headline-xl text-headline-xl text-on-surface font-bold">{{ total_orders > 0 ? (total_revenue / total_orders)|number_format(2) : '0.00' }}</p>
+        <p class="text-on-surface-variant font-body-md mt-1">Avg Order Value</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <h2 class="font-headline-lg text-[20px] text-on-surface mb-5">Status Breakdown</h2>
+        <div class="space-y-3">
+            {% set status_order = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] %}
+            {% set status_colors = {
+                'pending': 'bg-amber-400',
+                'confirmed': 'bg-blue-400',
+                'processing': 'bg-indigo-400',
+                'shipped': 'bg-cyan-400',
+                'delivered': 'bg-green-400',
+                'cancelled': 'bg-red-400',
+                'refunded': 'bg-purple-400',
+            } %}
+            {% for key in status_order %}
+                {% set s = stats[key]|default({count: 0, revenue: 0}) %}
+                <div class="flex items-center justify-between py-2 border-b border-outline-variant/10 last:border-0">
+                    <span class="flex items-center gap-2 text-on-surface-variant font-body-md">
+                        <span class="w-3 h-3 rounded-full {{ status_colors[key] }}"></span>
+                        {{ key|capitalize }}
+                    </span>
+                    <span class="font-medium text-on-surface">{{ s.count }} orders · ${{ s.revenue|number_format(0) }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-premium">
+        <h2 class="font-headline-lg text-[20px] text-on-surface mb-5">Payment Methods</h2>
+        <div class="space-y-3">
+            {% set methods = orders|reduce((carry, o) => carry|merge({(o.paymentMethod ?: 'Unknown'): (carry[o.paymentMethod ?: 'Unknown']|default(0) + 1)}), {}) %}
+            {% for method, count in methods %}
+                <div class="flex items-center justify-between py-2 border-b border-outline-variant/10 last:border-0">
+                    <span class="flex items-center gap-2 text-on-surface-variant font-body-md">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="{% if method starts with 'card' or method starts with 'credit' %}credit_card{% else %}account_balance{% endif %}">{% if method starts with 'card' or method starts with 'credit' %}credit_card{% else %}account_balance{% endif %}</span>
+                        {{ method|capitalize }}
+                    </span>
+                    <span class="font-medium text-on-surface">{{ count }}</span>
+                </div>
+            {% else %}
+                <p class="text-on-surface-variant text-center py-8">No payment data available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-3xl border border-outline-variant/30 shadow-premium">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-outline-variant/20">
+        <h2 class="font-headline-lg text-[20px] text-on-surface">Recent Transactions</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-outline-variant/20 text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+                    <th class="text-left px-6 py-4">Order</th>
+                    <th class="text-left px-6 py-4">Customer</th>
+                    <th class="text-left px-6 py-4">Date</th>
+                    <th class="text-left px-6 py-4">Total</th>
+                    <th class="text-left px-6 py-4">Status</th>
+                    <th class="text-right px-6 py-4">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders|slice(0, 10) %}
+                    <tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4 font-button-text text-button-text text-on-surface">{{ order.orderNumber }}</td>
+                        <td class="px-6 py-4 text-on-surface-variant">{{ order.user.fullName }}</td>
+                        <td class="px-6 py-4 text-on-surface-variant">{{ order.createdAt|date('M d, Y') }}</td>
+                        <td class="px-6 py-4 text-primary font-bold">${{ order.totalAmount|number_format(2) }}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-[12px] font-medium {% if order.status.value == 'pending' %}bg-amber-100 text-amber-800{% elseif order.status.value == 'completed' %}bg-green-100 text-green-800{% elseif order.status.value == 'cancelled' %}bg-red-100 text-red-800{% else %}bg-surface-container-high text-on-surface-variant{% endif %}">
+                                {{ order.status.value|capitalize }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="{{ path('admin_order_show', { id: order.id }) }}" class="material-symbols-outlined text-primary hover:scale-110 transition-transform" data-icon="visibility">visibility</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-20 text-center">
+                            <span class="material-symbols-outlined text-5xl text-outline-variant block mb-4" data-icon="receipt">receipt</span>
+                            <p class="text-on-surface-variant font-headline-lg text-headline-lg">No transactions yet</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

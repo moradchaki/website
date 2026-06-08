@@ -170,4 +170,25 @@ class AdminController extends AbstractController
             'order' => $order,
         ]);
     }
+
+    #[Route('/transactions', name: 'admin_transaction_index')]
+    public function transactionIndex(OrderRepository $orderRepo): Response
+    {
+        $orders = $orderRepo->findBy([], ['createdAt' => 'DESC']);
+        $stats = $orderRepo->getOrderStats();
+
+        $totalRevenue = 0;
+        $totalOrders = 0;
+        foreach ($stats as $s) {
+            $totalOrders += $s['count'];
+            $totalRevenue += $s['revenue'];
+        }
+
+        return $this->render('admin/transaction/index.html.twig', [
+            'orders' => $orders,
+            'stats' => $stats,
+            'total_orders' => $totalOrders,
+            'total_revenue' => $totalRevenue,
+        ]);
+    }
 }

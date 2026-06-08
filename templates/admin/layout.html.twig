@@ -124,6 +124,10 @@
                 </div>
 
                 <twig:SidebarLink href="{{ path('admin_order_index') }}" icon="receipt_long" label="Orders" active="{{ app.current_route starts with 'admin_order' }}" />
+
+                <twig:SidebarLink href="{{ path('admin_transaction_index') }}" icon="receipt" label="Transactions" active="{{ app.current_route starts with 'admin_transaction' }}" />
+
+                {% set order_stats_data = order_stats() %}
             </nav>
         </aside>
 
